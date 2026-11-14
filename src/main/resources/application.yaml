@@ -13,3 +13,9 @@ spring:
       hibernate:
         jdbc:
           time_zone: UTC
+
+app:
+  security:
+    users:
+      - username: ${APP_ADMIN_USERNAME:admin}
+        password: ${APP_ADMIN_PASSWORD:admin123}

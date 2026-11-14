@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(BookingController.class)
+@ApiSliceTest(BookingController.class)
 class BookingSearchControllerTest {
 
     private static final String BOOKINGS = "/api/v1/bookings";

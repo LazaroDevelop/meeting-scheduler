@@ -17,13 +17,14 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasItems;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(RoomController.class)
+@ApiSliceTest(RoomController.class)
 class RoomControllerTest {
 
     private static final String ROOMS = "/api/v1/rooms";
@@ -42,7 +43,7 @@ class RoomControllerTest {
         given(createRoom.create(new CreateRoomCommand("Orion", 8, "2nd floor")))
                 .willReturn(new Room(1L, "Orion", 8, "2nd floor"));
 
-        mvc.perform(post(ROOMS).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(post(ROOMS).with(user("admin")).contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"name": "Orion", "capacity": 8, "location": "2nd floor"}
                                 """))
@@ -54,7 +55,7 @@ class RoomControllerTest {
 
     @Test
     void rejectsInvalidRoom() throws Exception {
-        mvc.perform(post(ROOMS).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(post(ROOMS).with(user("admin")).contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"name": " ", "capacity": 0}
                                 """))
@@ -68,7 +69,7 @@ class RoomControllerTest {
         given(createRoom.create(new CreateRoomCommand("Orion", 8, null)))
                 .willThrow(new RoomAlreadyExistsException("Orion"));
 
-        mvc.perform(post(ROOMS).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(post(ROOMS).with(user("admin")).contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"name": "Orion", "capacity": 8}
                                 """))

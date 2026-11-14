@@ -24,6 +24,7 @@ import java.time.Instant;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -33,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(BookingController.class)
+@ApiSliceTest(BookingController.class)
 class BookingControllerTest {
 
     private static final String BOOKINGS = "/api/v1/bookings";
@@ -128,7 +129,7 @@ class BookingControllerTest {
 
     @Test
     void cancelsBooking() throws Exception {
-        mvc.perform(delete(BOOKINGS + "/7")).andExpect(status().isNoContent());
+        mvc.perform(delete(BOOKINGS + "/7").with(user("admin"))).andExpect(status().isNoContent());
 
         then(cancelBooking).should().cancel(7L);
     }
@@ -137,13 +138,13 @@ class BookingControllerTest {
     void returnsConflictWhenAlreadyCancelled() throws Exception {
         willThrow(new BookingAlreadyCancelledException(7L)).given(cancelBooking).cancel(7L);
 
-        mvc.perform(delete(BOOKINGS + "/7"))
+        mvc.perform(delete(BOOKINGS + "/7").with(user("admin")))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.detail").value("Booking 7 is already cancelled"));
     }
 
     private ResultActions postBooking(String body) throws Exception {
-        return mvc.perform(post(BOOKINGS).contentType(MediaType.APPLICATION_JSON).content(body));
+        return mvc.perform(post(BOOKINGS).with(user("admin")).contentType(MediaType.APPLICATION_JSON).content(body));
     }
 
     private static String validBody() {
