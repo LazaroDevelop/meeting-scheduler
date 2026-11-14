@@ -2,6 +2,7 @@ package net.space.developer.meetingscheduler.adapter.out.persistence;
 
 import net.space.developer.meetingscheduler.TestcontainersConfiguration;
 import net.space.developer.meetingscheduler.domain.model.Booking;
+import net.space.developer.meetingscheduler.domain.model.PageResult;
 import net.space.developer.meetingscheduler.domain.model.Room;
 import net.space.developer.meetingscheduler.domain.model.TimeSlot;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,6 +67,34 @@ class BookingPersistenceAdapterIntegrationTest {
         Long otherRoom = rooms.save(Room.create("Vega", 4, null)).id();
 
         assertThat(bookings.existsOverlapping(otherRoom, slot("09:00", "10:00"))).isFalse();
+    }
+
+    @Test
+    void searchesByRoomAndDayWindowOrderedByStart() {
+        Long otherRoom = rooms.save(Room.create("Vega", 4, null)).id();
+        bookings.save(Booking.create(roomId, "Grace", slot("07:00", "08:00")));
+        bookings.save(Booking.create(otherRoom, "Linus", slot("09:00", "10:00")));
+        bookings.save(Booking.create(roomId, "Next day", new TimeSlot(
+                Instant.parse("2030-01-11T09:00:00Z"), Instant.parse("2030-01-11T10:00:00Z"))));
+        TimeSlot day = new TimeSlot(Instant.parse("2030-01-10T00:00:00Z"), Instant.parse("2030-01-11T00:00:00Z"));
+
+        PageResult<Booking> page = bookings.search(roomId, day, 0, 10);
+
+        assertThat(page.content()).extracting(Booking::personInCharge).containsExactly("Grace", "Ada");
+        assertThat(page.totalElements()).isEqualTo(2);
+    }
+
+    @Test
+    void paginatesUnfilteredSearch() {
+        bookings.save(Booking.create(roomId, "Grace", slot("11:00", "12:00")));
+        bookings.save(Booking.create(roomId, "Linus", slot("13:00", "14:00")));
+
+        PageResult<Booking> page = bookings.search(null, null, 1, 2);
+
+        assertThat(page.content()).extracting(Booking::personInCharge).containsExactly("Linus");
+        assertThat(page.page()).isEqualTo(1);
+        assertThat(page.totalElements()).isEqualTo(3);
+        assertThat(page.totalPages()).isEqualTo(2);
     }
 
     @Test
