@@ -13,6 +13,9 @@ import net.space.developer.meetingscheduler.domain.port.in.CreateBookingUseCase;
 import net.space.developer.meetingscheduler.domain.port.in.QueryBookingsUseCase;
 import net.space.developer.meetingscheduler.domain.port.out.BookingRepositoryPort;
 import net.space.developer.meetingscheduler.domain.port.out.RoomRepositoryPort;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +36,7 @@ public class BookingService implements CreateBookingUseCase, CancelBookingUseCas
 
     @Override
     @Transactional
+    @CacheEvict(cacheNames = CacheNames.BOOKING_SEARCH, allEntries = true)
     public Booking create(CreateBookingCommand command) {
         Long roomId = command.roomId();
         rooms.findByIdForUpdate(roomId).orElseThrow(() -> new RoomNotFoundException(roomId));
@@ -46,19 +50,29 @@ public class BookingService implements CreateBookingUseCase, CancelBookingUseCas
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(cacheNames = CacheNames.BOOKING_BY_ID, key = "#bookingId"),
+            @CacheEvict(cacheNames = CacheNames.BOOKING_SEARCH, allEntries = true)
+    })
     public void cancel(Long bookingId) {
-        bookings.save(findById(bookingId).cancel());
+        bookings.save(load(bookingId).cancel());
     }
 
     @Override
+    @Cacheable(CacheNames.BOOKING_BY_ID)
     public Booking findById(Long id) {
-        return bookings.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
+        return load(id);
     }
 
     @Override
+    @Cacheable(CacheNames.BOOKING_SEARCH)
     public PageResult<Booking> search(BookingSearchQuery query) {
         TimeSlot window = query.date() == null ? null : utcDay(query.date());
         return bookings.search(query.roomId(), window, query.page(), query.size());
+    }
+
+    private Booking load(Long id) {
+        return bookings.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
     }
 
     private static TimeSlot utcDay(LocalDate date) {

@@ -7,6 +7,8 @@ import net.space.developer.meetingscheduler.domain.port.in.CreateRoomCommand;
 import net.space.developer.meetingscheduler.domain.port.in.CreateRoomUseCase;
 import net.space.developer.meetingscheduler.domain.port.in.QueryRoomsUseCase;
 import net.space.developer.meetingscheduler.domain.port.out.RoomRepositoryPort;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,7 @@ public class RoomService implements CreateRoomUseCase, QueryRoomsUseCase {
 
     @Override
     @Transactional
+    @CacheEvict(cacheNames = CacheNames.ROOMS, allEntries = true)
     public Room create(CreateRoomCommand command) {
         if (rooms.existsByName(command.name())) {
             throw new RoomAlreadyExistsException(command.name());
@@ -32,11 +35,13 @@ public class RoomService implements CreateRoomUseCase, QueryRoomsUseCase {
     }
 
     @Override
+    @Cacheable(CacheNames.ROOMS)
     public List<Room> findAll() {
         return rooms.findAll();
     }
 
     @Override
+    @Cacheable(CacheNames.ROOM_BY_ID)
     public Room findById(Long id) {
         return rooms.findById(id).orElseThrow(() -> new RoomNotFoundException(id));
     }
