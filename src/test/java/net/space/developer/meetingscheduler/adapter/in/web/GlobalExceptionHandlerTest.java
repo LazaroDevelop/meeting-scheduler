@@ -15,6 +15,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
@@ -29,6 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ApiSliceTest({RoomController.class, BookingController.class})
 class GlobalExceptionHandlerTest {
+
+    private static final String UTC_INSTANT = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z";
 
     @Autowired
     private MockMvc mvc;
@@ -62,6 +65,13 @@ class GlobalExceptionHandlerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.title").value("Validation failed"))
                 .andExpect(jsonPath("$.errors[*].field", hasItem("date")));
+    }
+
+    @Test
+    void stampsProblemsWithUtcInstant() throws Exception {
+        mvc.perform(get("/api/v1/rooms/abc"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.timestamp", matchesPattern(UTC_INSTANT)));
     }
 
     @Test

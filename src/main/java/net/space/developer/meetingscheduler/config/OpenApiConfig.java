@@ -4,11 +4,14 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
-import net.space.developer.meetingscheduler.adapter.in.web.ApiDocs;
+import net.space.developer.meetingscheduler.adapter.in.web.common.ApiDocs;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * OpenAPI metadata served at {@code /v3/api-docs} and rendered by Swagger UI at {@code /swagger-ui.html}.
+ *
+ * @author Lazaro Noel Guerra Medina
+ * @since 2026-11-14
  */
 @Configuration
 @OpenAPIDefinition(info = @Info(

@@ -2,7 +2,7 @@ package net.space.developer.meetingscheduler.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import net.space.developer.meetingscheduler.adapter.in.web.Problems;
+import net.space.developer.meetingscheduler.adapter.in.web.common.Problems;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,17 +16,37 @@ import java.net.URI;
 
 /**
  * Answers unauthenticated requests with a Basic challenge and the API's ProblemDetail body.
+ *
+ * @author Lazaro Noel Guerra Medina
+ * @since 2026-11-14
  */
 class ProblemDetailAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
+    /**
+     * The Basic challenge header value sent to unauthenticated requests.
+     */
     private static final String CHALLENGE = "Basic realm=\"meeting-scheduler\"";
 
+    /**
+     * The JSON mapper used to serialize the ProblemDetail body.
+     */
     private final JsonMapper jsonMapper;
 
+    /**
+     * Creates a new {@code ProblemDetailAuthenticationEntryPoint}.
+     */
     ProblemDetailAuthenticationEntryPoint(JsonMapper jsonMapper) {
         this.jsonMapper = jsonMapper;
     }
 
+    /**
+     * Commences the authentication process for unauthenticated requests.
+     *
+     * @param request        the HTTP servlet request
+     * @param response       the HTTP servlet response
+     * @param authException the authentication exception
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {

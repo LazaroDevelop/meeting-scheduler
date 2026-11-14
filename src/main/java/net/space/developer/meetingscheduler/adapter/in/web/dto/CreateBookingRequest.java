@@ -10,6 +10,16 @@ import net.space.developer.meetingscheduler.adapter.in.web.validation.ValidTimeR
 import net.space.developer.meetingscheduler.domain.port.in.CreateBookingCommand;
 
 import java.time.Instant;
+/**
+ * CreateBookingRequest is the request DTO for creating a booking.
+ *
+ * @author Lazaro Noel Guerra Medina
+ * @since 2026-11-14
+ * @param roomId - The unique identifier of the room to be booked.
+ * @param personInCharge - The name of the person responsible for the booking.
+ * @param startTime - The start time of the booking.
+ * @param endTime - The end time of the booking.
+ */
 
 @ValidTimeRange
 public record CreateBookingRequest(
