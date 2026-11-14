@@ -21,6 +21,9 @@ import java.util.List;
 
 /**
  * Stateless HTTP Basic security: reads are public, every write needs an authenticated user.
+ *
+ * @author Lazaro Noel Guerra Medina
+ * @since 2026-11-14
  */
 @Configuration
 @EnableConfigurationProperties(SecurityProperties.class)
@@ -30,6 +33,13 @@ public class SecurityConfig {
             "/actuator/health/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/error"
     };
 
+    /**
+     * Creates a {@link SecurityFilterChain} bean that configures the security for the application.
+     * 
+     * @param http the {@link HttpSecurity} object to configure
+     * @param entryPoint the {@link AuthenticationEntryPoint} to handle authentication failures
+     * @return a {@link SecurityFilterChain} bean
+     */
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationEntryPoint entryPoint) {
         return http
@@ -44,16 +54,34 @@ public class SecurityConfig {
                 .build();
     }
 
+    /**
+     * Creates a {@link ProblemDetailAuthenticationEntryPoint} bean that handles authentication failures by returning a ProblemDetail response.
+     * 
+     * @param jsonMapper the JSON mapper used to serialize the ProblemDetail body
+     * @return a {@link AuthenticationEntryPoint} bean
+     */
     @Bean
     AuthenticationEntryPoint problemDetailEntryPoint(JsonMapper jsonMapper) {
         return new ProblemDetailAuthenticationEntryPoint(jsonMapper);
     }
 
+    /**
+     * Creates a {@link PasswordEncoder} bean that uses the BCrypt hashing algorithm to encode passwords.
+     * 
+     * @return a {@link PasswordEncoder} bean
+     */
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Creates a {@link UserDetailsService} bean that provides user details for authentication.
+     * 
+     * @param properties the security properties containing user credentials
+     * @param encoder the password encoder used to encode user passwords
+     * @return a {@link UserDetailsService} bean
+     */
     @Bean
     UserDetailsService userDetailsService(SecurityProperties properties, PasswordEncoder encoder) {
         List<UserDetails> users = properties.users().stream()

@@ -5,6 +5,18 @@ import net.space.developer.meetingscheduler.domain.model.BookingStatus;
 
 import java.time.Instant;
 
+/**
+ * BookingResponse is the response DTO for a booking.
+ *
+ * @author Lazaro Noel Guerra Medina
+ * @since 2026-11-14
+ * @param id - The unique identifier of the booking.
+ * @param roomId - The unique identifier of the room associated with the booking.
+ * @param personInCharge - The name of the person responsible for the booking.
+ * @param startTime - The start time of the booking.
+ * @param endTime - The end time of the booking.
+ * @param status - The status of the booking.
+ */
 public record BookingResponse(
         Long id, Long roomId, String personInCharge, Instant startTime, Instant endTime, BookingStatus status) {
 
