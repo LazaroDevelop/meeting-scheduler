@@ -13,7 +13,6 @@ import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.net.URI;
-import java.time.LocalDateTime;
 
 /**
  * @author Lazaro Noel Guerra Medina
@@ -52,7 +51,7 @@ class ProblemDetailAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
         ProblemDetail problem = Problems.of(HttpStatus.UNAUTHORIZED, "Unauthorized",
-                "Valid credentials are required to access this resource", LocalDateTime.now());
+                "Valid credentials are required to access this resource");
         problem.setInstance(URI.create(request.getRequestURI()));
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());

@@ -22,7 +22,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
-import java.time.LocalDateTime;
 
 /**
  * @author Lazaro Noel Guerra Medina
@@ -42,7 +41,7 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(ResourceNotFoundException.class)
     ProblemDetail handleNotFound(ResourceNotFoundException ex) {
-        return Problems.of(HttpStatus.NOT_FOUND, "Resource not found", ex.getMessage(), LocalDateTime.now());
+        return Problems.of(HttpStatus.NOT_FOUND, "Resource not found", ex.getMessage());
     }
 
     /**
@@ -52,7 +51,7 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(ConflictException.class)
     ProblemDetail handleConflict(ConflictException ex) {
-        return Problems.of(HttpStatus.CONFLICT, "Conflict", ex.getMessage(), LocalDateTime.now());
+        return Problems.of(HttpStatus.CONFLICT, "Conflict", ex.getMessage());
     }
 
     /**
@@ -62,7 +61,7 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(InvalidTimeRangeException.class)
     ProblemDetail handleInvalidTimeRange(InvalidTimeRangeException ex) {
-        return Problems.of(HttpStatus.BAD_REQUEST, Problems.VALIDATION_FAILED, ex.getMessage(), LocalDateTime.now());
+        return Problems.of(HttpStatus.BAD_REQUEST, Problems.VALIDATION_FAILED, ex.getMessage());
     }
 
     /**
@@ -75,7 +74,7 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     ProblemDetail handleDataIntegrity(DataIntegrityViolationException ex) {
         logger.warn("Data integrity violation", ex);
-        return Problems.of(HttpStatus.CONFLICT, "Conflict", "The request conflicts with existing data", LocalDateTime.now());
+        return Problems.of(HttpStatus.CONFLICT, "Conflict", "The request conflicts with existing data");
     }
 
     /**
@@ -86,7 +85,7 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     ProblemDetail handleUnexpected(Exception ex) {
         logger.error("Unexpected error", ex);
-        return Problems.of(HttpStatus.INTERNAL_SERVER_ERROR, "Internal error", "An unexpected error occurred", LocalDateTime.now());
+        return Problems.of(HttpStatus.INTERNAL_SERVER_ERROR, "Internal error", "An unexpected error occurred");
     }
 
     /**
@@ -150,7 +149,7 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleHttpMessageNotReadable(
             HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return ResponseEntity.badRequest().body(Problems.of(HttpStatus.BAD_REQUEST, "Malformed request",
-                "The request body is missing or is not valid JSON", LocalDateTime.now()));
+                "The request body is missing or is not valid JSON"));
     }
 
     /**
