@@ -16,6 +16,7 @@ mvn test -Dtest=BookingServiceTest                   # single class
 mvn test -Dtest=BookingServiceTest#rejectsOverlappingBooking   # single method
 mvn spring-boot:test-run                             # run locally against a Testcontainers Postgres
 docker compose up -d --build                         # app + Postgres on :8080
+./scripts/smoke-test.sh                              # 54 HTTP checks against a running instance (bash + curl)
 ```
 
 Coverage report: `target/site/jacoco/index.html`. Integration tests are named `*IntegrationTest` / `*EndToEndTest` and run under Surefire (there is no Failsafe).
