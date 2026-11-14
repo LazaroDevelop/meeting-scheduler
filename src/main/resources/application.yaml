@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: meeting-scheduler
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/meeting_scheduler}
+    username: ${DB_USERNAME:meeting}
+    password: ${DB_PASSWORD:meeting}
+  cache:
+    type: caffeine
+    cache-names: rooms,roomById,bookingById,bookingSearch
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=10m,recordStats
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,caches
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: when-authorized
+  info:
+    env:
+      enabled: false
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+app:
+  security:
+    users:
+      - username: ${APP_ADMIN_USERNAME:admin}
+        password: ${APP_ADMIN_PASSWORD:admin123}

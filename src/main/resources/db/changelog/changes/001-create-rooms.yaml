@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-rooms
+      author: meeting-scheduler
+      changes:
+        - createTable:
+            tableName: rooms
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_rooms
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uk_rooms_name
+              - column:
+                  name: capacity
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: location
+                  type: VARCHAR(200)
+        - sql:
+            sql: ALTER TABLE rooms ADD CONSTRAINT ck_rooms_capacity CHECK (capacity > 0)
+      rollback:
+        - dropTable:
+            tableName: rooms
