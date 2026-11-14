@@ -4,7 +4,9 @@ import net.space.developer.meetingscheduler.domain.exception.BookingConflictExce
 import net.space.developer.meetingscheduler.domain.exception.BookingNotFoundException;
 import net.space.developer.meetingscheduler.domain.exception.RoomNotFoundException;
 import net.space.developer.meetingscheduler.domain.model.Booking;
+import net.space.developer.meetingscheduler.domain.model.PageResult;
 import net.space.developer.meetingscheduler.domain.model.TimeSlot;
+import net.space.developer.meetingscheduler.domain.port.in.BookingSearchQuery;
 import net.space.developer.meetingscheduler.domain.port.in.CancelBookingUseCase;
 import net.space.developer.meetingscheduler.domain.port.in.CreateBookingCommand;
 import net.space.developer.meetingscheduler.domain.port.in.CreateBookingUseCase;
@@ -13,6 +15,9 @@ import net.space.developer.meetingscheduler.domain.port.out.BookingRepositoryPor
 import net.space.developer.meetingscheduler.domain.port.out.RoomRepositoryPort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 
 @Service
 @Transactional(readOnly = true)
@@ -48,5 +53,16 @@ public class BookingService implements CreateBookingUseCase, CancelBookingUseCas
     @Override
     public Booking findById(Long id) {
         return bookings.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
+    }
+
+    @Override
+    public PageResult<Booking> search(BookingSearchQuery query) {
+        TimeSlot window = query.date() == null ? null : utcDay(query.date());
+        return bookings.search(query.roomId(), window, query.page(), query.size());
+    }
+
+    private static TimeSlot utcDay(LocalDate date) {
+        return new TimeSlot(date.atStartOfDay(ZoneOffset.UTC).toInstant(),
+                date.plusDays(1).atStartOfDay(ZoneOffset.UTC).toInstant());
     }
 }
