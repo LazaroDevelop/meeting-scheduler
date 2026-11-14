@@ -8,10 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import java.time.Instant;
 
 /**
+ * JPA repository for managing booking entities.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief JPA repository for managing booking entities.
  */
 interface BookingJpaRepository extends JpaRepository<BookingJpaEntity, Long>, JpaSpecificationExecutor<BookingJpaEntity> {
 

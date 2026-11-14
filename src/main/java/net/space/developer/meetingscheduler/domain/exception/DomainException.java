@@ -1,10 +1,10 @@
 package net.space.developer.meetingscheduler.domain.exception;
 
 /**
+ * Base type for every business rule violation raised by the domain.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief Base type for every business rule violation raised by the domain.
  */
 public abstract class DomainException extends RuntimeException {
 

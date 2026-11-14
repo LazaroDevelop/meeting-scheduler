@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * RoomPersistenceAdapter is a persistence adapter for managing room entities.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief RoomPersistenceAdapter is a persistence adapter for managing room entities.
  */
 
 @RoomAdapter
@@ -21,7 +21,7 @@ class RoomPersistenceAdapter implements RoomRepositoryPort {
     private final RoomJpaRepository repository;
 
     /**
-     * Copy constructor for RoomPersistenceAdapter.
+     * Creates a new {@code RoomPersistenceAdapter}.
      */
     RoomPersistenceAdapter(RoomJpaRepository repository) {
         this.repository = repository;

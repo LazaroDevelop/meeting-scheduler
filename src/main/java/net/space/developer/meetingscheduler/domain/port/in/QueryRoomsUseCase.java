@@ -5,10 +5,10 @@ import net.space.developer.meetingscheduler.domain.model.Room;
 import java.util.List;
 
 /**
+ * QueryRoomsUseCase is a use case interface for querying room information.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief QueryRoomsUseCase is a use case interface for querying room information.
  */
 
 public interface QueryRoomsUseCase {

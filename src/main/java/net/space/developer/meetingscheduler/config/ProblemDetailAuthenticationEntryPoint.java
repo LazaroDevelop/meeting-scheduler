@@ -15,10 +15,10 @@ import java.io.IOException;
 import java.net.URI;
 
 /**
+ * Answers unauthenticated requests with a Basic challenge and the API's ProblemDetail body.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * Answers unauthenticated requests with a Basic challenge and the API's ProblemDetail body.
  */
 class ProblemDetailAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
@@ -33,7 +33,7 @@ class ProblemDetailAuthenticationEntryPoint implements AuthenticationEntryPoint 
     private final JsonMapper jsonMapper;
 
     /**
-     * Copy Constructor for ProblemDetailAuthenticationEntryPoint.
+     * Creates a new {@code ProblemDetailAuthenticationEntryPoint}.
      */
     ProblemDetailAuthenticationEntryPoint(JsonMapper jsonMapper) {
         this.jsonMapper = jsonMapper;

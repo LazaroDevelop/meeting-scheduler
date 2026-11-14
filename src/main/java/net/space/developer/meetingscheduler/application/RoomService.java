@@ -15,10 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
+ * Application service implementing the room use cases: creation, listing and lookup by id.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief RoomService 
  */
 
 @Service
@@ -31,7 +31,7 @@ public class RoomService implements CreateRoomUseCase, QueryRoomsUseCase {
     private final RoomRepositoryPort rooms;
 
     /**
-     * Copy Constructor for RoomService.
+     * Creates a new {@code RoomService}.
      */
     public RoomService(RoomRepositoryPort rooms) {
         this.rooms = rooms;

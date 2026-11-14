@@ -20,10 +20,10 @@ import tools.jackson.databind.json.JsonMapper;
 import java.util.List;
 
 /**
+ * Stateless HTTP Basic security: reads are public, every write needs an authenticated user.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief Stateless HTTP Basic security: reads are public, every write needs an authenticated user.
  */
 @Configuration
 @EnableConfigurationProperties(SecurityProperties.class)
@@ -39,7 +39,6 @@ public class SecurityConfig {
      * @param http the {@link HttpSecurity} object to configure
      * @param entryPoint the {@link AuthenticationEntryPoint} to handle authentication failures
      * @return a {@link SecurityFilterChain} bean
-     * @throws Exception if an error occurs while configuring the security
      */
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationEntryPoint entryPoint) {

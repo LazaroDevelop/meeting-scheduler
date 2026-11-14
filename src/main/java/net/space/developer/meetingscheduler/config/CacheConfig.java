@@ -5,13 +5,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
 /**
- * @author Lazaro Noel Guerra Medina
- * @since 2026-11-14
- * 
- * @brief Enables the Caffeine caches declared in {@code spring.cache.*}.
+ * Enables the Caffeine caches declared in {@code spring.cache.*}.
  * <p>
  * The caching advice runs outside the transactional one, so evictions happen only after
  * the write has been committed and a concurrent read cannot re-cache stale data.
+ *
+ * @author Lazaro Noel Guerra Medina
+ * @since 2026-11-14
  */
 @Configuration
 @EnableCaching(order = Ordered.HIGHEST_PRECEDENCE)

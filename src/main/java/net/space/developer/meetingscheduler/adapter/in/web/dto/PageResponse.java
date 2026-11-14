@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
+ * PageResponse is a generic response DTO for paginated results.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief PageResponse is a generic response DTO for paginated results.
  * @param <T> - The type of the content in the page.
  * @param content - The list of items in the current page.
  * @param page - The current page number (0-based).

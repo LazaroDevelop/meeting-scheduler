@@ -10,10 +10,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Class-level constraint: the {@link TimeRange#endTime()} must be strictly after {@link TimeRange#startTime()}.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief Class-level constraint: the {@link TimeRange#endTime()} must be strictly after {@link TimeRange#startTime()}.
  */
 @Documented
 @Target(ElementType.TYPE)

@@ -9,10 +9,10 @@ import jakarta.persistence.Table;
 import net.space.developer.meetingscheduler.domain.model.Room;
 
 /**
+ * RoomJpaEntity is a JPA entity that represents a room in the database. It maps the Room domain model to the database table "rooms".
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief RoomJpaEntity is a JPA entity that represents a room in the database. It maps the Room domain model to the database table "rooms".
  */
 
 @Entity

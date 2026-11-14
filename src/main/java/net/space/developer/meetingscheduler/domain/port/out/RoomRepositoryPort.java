@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * RoomRepositoryPort is the interface that defines the contract for room repository operations in the domain layer.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief RoomRepositoryPort is the interface that defines the contract for room repository operations in the domain layer.
  */
 public interface RoomRepositoryPort {
 

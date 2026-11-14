@@ -33,10 +33,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 
 /**
+ * BookingController handles HTTP requests related to bookings, including creating, searching, retrieving, and canceling bookings.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief BookingController handles HTTP requests related to bookings, including creating, searching, retrieving, and canceling bookings.
  */
 
 @Tag(name = "Bookings")
@@ -65,7 +65,7 @@ class BookingController {
     private final QueryBookingsUseCase queryBookings;
     
     /**
-     * Copy constructor for BookingController.
+     * Creates a new {@code BookingController}.
      */
     BookingController(CreateBookingUseCase createBooking, CancelBookingUseCase cancelBooking,
                       QueryBookingsUseCase queryBookings) {

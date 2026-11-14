@@ -5,10 +5,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 /**
+ * Builds the {@code Location} header of a newly created resource relative to the current request.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief Builds the {@code Location} header of a newly created resource relative to the current request.
  */
 public final class Locations {
 

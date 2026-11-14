@@ -1,10 +1,10 @@
 package net.space.developer.meetingscheduler.domain.exception;
 
 /**
+ * Exception thrown when an invalid time range is provided, such as when the start time is after the end time.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief Exception thrown when an invalid time range is provided, such as when the start time is after the end time.
  */
 public class InvalidTimeRangeException extends DomainException {
 

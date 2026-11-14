@@ -8,10 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 /**
+ * JPA repository for managing room entities.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief JPA repository for managing room entities.
  */
 
 interface RoomJpaRepository extends JpaRepository<RoomJpaEntity, Long> {

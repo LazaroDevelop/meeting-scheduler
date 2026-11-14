@@ -7,10 +7,10 @@ import net.space.developer.meetingscheduler.domain.model.TimeSlot;
 import java.util.Optional;
 
 /**
+ * BookingRepositoryPort is the interface that defines the contract for booking repository operations in the domain layer.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief BookingRepositoryPort is the interface that defines the contract for booking repository operations in the domain layer.
  */
 public interface BookingRepositoryPort {
 

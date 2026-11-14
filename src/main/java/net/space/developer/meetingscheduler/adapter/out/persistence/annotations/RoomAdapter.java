@@ -8,10 +8,10 @@ import java.lang.annotation.Target;
 import org.springframework.stereotype.Component;
 
 /**
+ * RoomAdapter annotation to mark classes that serve as adapters for room-related persistence operations.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief RoomAdapter annotation to mark classes that serve as adapters for room-related persistence operations.
  */
 @Component
 @Target(ElementType.TYPE)

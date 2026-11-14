@@ -21,10 +21,10 @@ import net.space.developer.meetingscheduler.adapter.in.web.common.Locations;
 import java.util.List;
 
 /**
+ * RoomController handles HTTP requests related to rooms, including creating, searching, and retrieving rooms.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief RoomController handles HTTP requests related to rooms, including creating, searching, and retrieving rooms.
  */
 
 @Tag(name = "Rooms")
@@ -43,7 +43,7 @@ class RoomController {
     private final QueryRoomsUseCase queryRooms;
 
     /**
-     * Copy constructor for RoomController.
+     * Creates a new {@code RoomController}.
      */
     RoomController(CreateRoomUseCase createRoom, QueryRoomsUseCase queryRooms) {
         this.createRoom = createRoom;

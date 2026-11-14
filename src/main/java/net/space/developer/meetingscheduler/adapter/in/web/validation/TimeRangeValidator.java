@@ -4,11 +4,10 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 /**
+ * sReports a violation on the {@code endTime} property; missing bounds are left to {@code @NotNull}.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * 
- * @brief sReports a violation on the {@code endTime} property; missing bounds are left to {@code @NotNull}.
  */
 public class TimeRangeValidator implements ConstraintValidator<ValidTimeRange, TimeRange> {
 

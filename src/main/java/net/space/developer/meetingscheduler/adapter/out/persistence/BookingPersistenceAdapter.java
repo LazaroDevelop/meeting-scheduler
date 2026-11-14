@@ -13,10 +13,10 @@ import org.springframework.data.domain.Sort;
 import java.util.Optional;
 
 /**
+ * BookingPersistenceAdapter is an implementation of the BookingRepositoryPort that uses JPA to persist and retrieve booking data.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief BookingPersistenceAdapter is an implementation of the BookingRepositoryPort that uses JPA to persist and retrieve booking data.
  */
 
 @BookingAdapter
@@ -33,7 +33,7 @@ class BookingPersistenceAdapter implements BookingRepositoryPort {
     private final BookingJpaRepository repository;
 
     /**
-     * Copy constructor for BookingPersistenceAdapter.
+     * Creates a new {@code BookingPersistenceAdapter}.
      */
     BookingPersistenceAdapter(BookingJpaRepository repository) {
         this.repository = repository;

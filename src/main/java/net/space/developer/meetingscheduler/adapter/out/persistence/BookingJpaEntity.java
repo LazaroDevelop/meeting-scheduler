@@ -15,10 +15,10 @@ import net.space.developer.meetingscheduler.domain.model.TimeSlot;
 import java.time.Instant;
 
 /**
+ * JPA entity for representing a booking in the database.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief JPA entity for representing a booking in the database.
  */
 @Entity
 @Table(name = "bookings")

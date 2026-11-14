@@ -24,12 +24,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.List;
 
 /**
- * @author Lazaro Noel Guerra Medina
- * @since 2026-11-14
- * 
- * @brief Translates every exception leaving the web layer into an RFC 9457 {@link ProblemDetail}.
+ * Translates every exception leaving the web layer into an RFC 9457 {@link ProblemDetail}.
  * Framework errors not overridden here (405, 406, 415, unknown routes...) keep the
  * {@link ResponseEntityExceptionHandler} defaults, which are ProblemDetails as well.
+ *
+ * @author Lazaro Noel Guerra Medina
+ * @since 2026-11-14
  */
 @RestControllerAdvice
 class GlobalExceptionHandler extends ResponseEntityExceptionHandler {

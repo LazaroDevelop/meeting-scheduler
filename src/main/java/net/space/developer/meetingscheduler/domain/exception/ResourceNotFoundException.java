@@ -1,10 +1,10 @@
 package net.space.developer.meetingscheduler.domain.exception;
 
 /**
+ * A requested aggregate does not exist.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief A requested aggregate does not exist.
  */
 public abstract class ResourceNotFoundException extends DomainException {
 

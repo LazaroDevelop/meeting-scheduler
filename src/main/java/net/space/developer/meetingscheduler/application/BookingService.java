@@ -22,10 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 /**
+ * BookingService
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief BookingService
  */
 @Service
 @Transactional(readOnly = true)
@@ -42,7 +42,7 @@ public class BookingService implements CreateBookingUseCase, CancelBookingUseCas
     private final BookingRepositoryPort bookings;
 
     /**
-     * Copy Constructor for BookingService.
+     * Creates a new {@code BookingService}.
      */
     public BookingService(RoomRepositoryPort rooms, BookingRepositoryPort bookings) {
         this.rooms = rooms;

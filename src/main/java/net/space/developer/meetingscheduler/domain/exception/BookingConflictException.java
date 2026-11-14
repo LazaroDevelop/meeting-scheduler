@@ -3,10 +3,10 @@ package net.space.developer.meetingscheduler.domain.exception;
 import net.space.developer.meetingscheduler.domain.model.TimeSlot;
 
 /**
+ * Exception thrown when attempting to create a booking that conflicts with an existing booking
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief Exception thrown when attempting to create a booking that conflicts with an existing booking
  */
 public class BookingConflictException extends ConflictException {
 

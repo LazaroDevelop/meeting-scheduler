@@ -3,11 +3,10 @@ package net.space.developer.meetingscheduler.domain.model;
 import net.space.developer.meetingscheduler.domain.exception.BookingAlreadyCancelledException;
 
 /**
+ * Represents a booking in the meeting scheduler system.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief Represents a booking in the meeting scheduler system.
- * 
  * @param id - the unique identifier of the booking
  * @param roomId - the unique identifier of the room associated with the booking
  * @param personInCharge - the name of the person responsible for the booking

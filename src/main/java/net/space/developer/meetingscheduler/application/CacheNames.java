@@ -1,11 +1,11 @@
 package net.space.developer.meetingscheduler.application;
 
 /**
+ * Names of the read caches maintained by the application services
+ * (must match {@code spring.cache.cache-names}).
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief Names of the read caches maintained by the application services
- * (must match {@code spring.cache.cache-names}).
  */
 final class CacheNames {
 

@@ -5,10 +5,10 @@ import net.space.developer.meetingscheduler.domain.exception.InvalidTimeRangeExc
 import java.time.Instant;
 
 /**
+ * Half-open time interval {@code [start, end)}: back-to-back slots do not overlap.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief Half-open time interval {@code [start, end)}: back-to-back slots do not overlap.
  */
 public record TimeSlot(Instant start, Instant end) {
     

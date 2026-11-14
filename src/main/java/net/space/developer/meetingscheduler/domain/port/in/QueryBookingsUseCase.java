@@ -4,10 +4,10 @@ import net.space.developer.meetingscheduler.domain.model.Booking;
 import net.space.developer.meetingscheduler.domain.model.PageResult;
 
 /**
+ * QueryBookingsUseCase is a use case interface for querying booking information.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief QueryBookingsUseCase is a use case interface for querying booking information.
  */
 public interface QueryBookingsUseCase {
 

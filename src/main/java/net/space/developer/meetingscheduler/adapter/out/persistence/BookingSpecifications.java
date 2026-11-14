@@ -4,10 +4,10 @@ import net.space.developer.meetingscheduler.domain.model.TimeSlot;
 import org.springframework.data.jpa.domain.Specification;
 
 /**
+ * Composable filters for the booking search; a {@code null} argument adds no restriction.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief Composable filters for the booking search; a {@code null} argument adds no restriction.
  */
 final class BookingSpecifications {
 

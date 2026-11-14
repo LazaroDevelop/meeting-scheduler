@@ -3,10 +3,10 @@ package net.space.developer.meetingscheduler.domain.port.in;
 import net.space.developer.meetingscheduler.domain.model.Booking;
 
 /**
+ * CreateBookingUseCase is a use case interface for creating booking information.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief CreateBookingUseCase is a use case interface for creating booking information.
  */
 public interface CreateBookingUseCase {
 

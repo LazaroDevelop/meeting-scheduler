@@ -1,10 +1,10 @@
 package net.space.developer.meetingscheduler.domain.port.in;
 
 /**
+ * CancelBookingUseCase is a use case interface for canceling booking information.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief CancelBookingUseCase is a use case interface for canceling booking information.
  */
 public interface CancelBookingUseCase {
     /**

@@ -9,10 +9,10 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 
 /**
+ * API users allowed to perform write operations, bound from {@code app.security.users}.
+ *
  * @author Lazaro Noel Guerra Medina
  * @since 2026-11-14
- * 
- * @brief API users allowed to perform write operations, bound from {@code app.security.users}.
  */
 @Validated
 @ConfigurationProperties("app.security")
