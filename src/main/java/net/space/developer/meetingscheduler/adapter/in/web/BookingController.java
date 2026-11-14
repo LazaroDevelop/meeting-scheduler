@@ -9,6 +9,8 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import net.space.developer.meetingscheduler.adapter.in.web.common.ApiDocs;
+import net.space.developer.meetingscheduler.adapter.in.web.common.Locations;
 import net.space.developer.meetingscheduler.adapter.in.web.dto.BookingResponse;
 import net.space.developer.meetingscheduler.adapter.in.web.dto.CreateBookingRequest;
 import net.space.developer.meetingscheduler.adapter.in.web.dto.PageResponse;
@@ -30,17 +32,41 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 
+/**
+ * @author Lazaro Noel Guerra Medina
+ * @since 2026-11-14
+ * 
+ * @brief BookingController handles HTTP requests related to bookings, including creating, searching, retrieving, and canceling bookings.
+ */
+
 @Tag(name = "Bookings")
 @RestController
 @RequestMapping("/api/v1/bookings")
 class BookingController {
 
+    /**
+     * The maximum page size for paginated booking search results.
+     */
     private static final int MAX_PAGE_SIZE = 100;
 
+    /**
+     * The use case for creating a booking.
+     */
     private final CreateBookingUseCase createBooking;
-    private final CancelBookingUseCase cancelBooking;
-    private final QueryBookingsUseCase queryBookings;
 
+    /**
+     * The use case for canceling a booking.
+     */
+    private final CancelBookingUseCase cancelBooking;
+
+    /**
+     * The use case for querying bookings.
+     */
+    private final QueryBookingsUseCase queryBookings;
+    
+    /**
+     * Copy constructor for BookingController.
+     */
     BookingController(CreateBookingUseCase createBooking, CancelBookingUseCase cancelBooking,
                       QueryBookingsUseCase queryBookings) {
         this.createBooking = createBooking;
@@ -48,6 +74,11 @@ class BookingController {
         this.queryBookings = queryBookings;
     }
 
+    /**
+     * Handles the HTTP POST request to create a new booking.
+     * @param request - The request body containing the booking details.
+     * @return A ResponseEntity containing the created booking and the Location header pointing to the new resource.
+     */
     @Operation(summary = "Book a room", description = "Fails with 409 when the room is already booked in that slot.")
     @SecurityRequirement(name = ApiDocs.BASIC_AUTH)
     @PostMapping
@@ -56,6 +87,14 @@ class BookingController {
         return ResponseEntity.created(Locations.of(booking.id())).body(booking);
     }
 
+    /**
+     * Handles the HTTP GET request to search for bookings with optional filters for room and date, and supports pagination.
+     * @param roomId - Optional filter for bookings in a specific room.
+     * @param date - Optional filter for bookings overlapping a specific UTC day (yyyy-MM-dd).
+     * @param page - The page number for pagination (default is 0).
+     * @param size - The number of bookings per page for pagination (default is 20, maximum is 100).
+     * @return A PageResponse containing the paginated list of bookings matching the search criteria.
+     */
     @Operation(summary = "List bookings", description = "Ordered by start time; optionally filtered by room and UTC day.")
     @GetMapping
     PageResponse<BookingResponse> search(
@@ -68,12 +107,21 @@ class BookingController {
         return PageResponse.from(queryBookings.search(query), BookingResponse::from);
     }
 
+    /**
+     * Handles the HTTP GET request to retrieve a specific booking by its unique identifier.
+     * @param id - The unique identifier of the booking to retrieve.
+     * @return A BookingResponse containing the details of the requested booking.
+     */
     @Operation(summary = "Get a booking")
     @GetMapping("/{id}")
     BookingResponse findById(@PathVariable Long id) {
         return BookingResponse.from(queryBookings.findById(id));
     }
 
+    /**
+     * Handles the HTTP DELETE request to cancel a specific booking by its unique identifier.
+     * @param id - The unique identifier of the booking to cancel.
+     */
     @Operation(summary = "Cancel a booking", description = "Soft cancel; fails with 409 if already cancelled.")
     @SecurityRequirement(name = ApiDocs.BASIC_AUTH)
     @DeleteMapping("/{id}")

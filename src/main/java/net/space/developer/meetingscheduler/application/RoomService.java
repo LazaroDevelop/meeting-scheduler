@@ -14,16 +14,32 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * @author Lazaro Noel Guerra Medina
+ * @since 2026-11-14
+ * 
+ * @brief RoomService 
+ */
+
 @Service
 @Transactional(readOnly = true)
 public class RoomService implements CreateRoomUseCase, QueryRoomsUseCase {
 
+    /**
+     * The repository port for managing room entities.
+     */
     private final RoomRepositoryPort rooms;
 
+    /**
+     * Copy Constructor for RoomService.
+     */
     public RoomService(RoomRepositoryPort rooms) {
         this.rooms = rooms;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     @CacheEvict(cacheNames = CacheNames.ROOMS, allEntries = true)
@@ -34,12 +50,18 @@ public class RoomService implements CreateRoomUseCase, QueryRoomsUseCase {
         return rooms.save(Room.create(command.name(), command.capacity(), command.location()));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Cacheable(CacheNames.ROOMS)
     public List<Room> findAll() {
         return rooms.findAll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Cacheable(CacheNames.ROOM_BY_ID)
     public Room findById(Long id) {

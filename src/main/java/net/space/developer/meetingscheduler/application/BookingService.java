@@ -21,19 +21,37 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-
+/**
+ * @author Lazaro Noel Guerra Medina
+ * @since 2026-11-14
+ * 
+ * @brief BookingService
+ */
 @Service
 @Transactional(readOnly = true)
 public class BookingService implements CreateBookingUseCase, CancelBookingUseCase, QueryBookingsUseCase {
 
+    /**
+     * The repository port for managing room entities.
+     */
     private final RoomRepositoryPort rooms;
+
+    /**
+     * The repository port for managing booking entities.
+     */
     private final BookingRepositoryPort bookings;
 
+    /**
+     * Copy Constructor for BookingService.
+     */
     public BookingService(RoomRepositoryPort rooms, BookingRepositoryPort bookings) {
         this.rooms = rooms;
         this.bookings = bookings;
     }
 
+    /**
+     *  {@inheritDoc}
+     */
     @Override
     @Transactional
     @CacheEvict(cacheNames = CacheNames.BOOKING_SEARCH, allEntries = true)
@@ -48,6 +66,9 @@ public class BookingService implements CreateBookingUseCase, CancelBookingUseCas
         return bookings.save(Booking.create(roomId, command.personInCharge(), slot));
     }
 
+    /**
+     *  {@inheritDoc}
+     */
     @Override
     @Transactional
     @Caching(evict = {
@@ -58,12 +79,18 @@ public class BookingService implements CreateBookingUseCase, CancelBookingUseCas
         bookings.save(load(bookingId).cancel());
     }
 
+    /**
+     *  {@inheritDoc}
+     */
     @Override
     @Cacheable(CacheNames.BOOKING_BY_ID)
     public Booking findById(Long id) {
         return load(id);
     }
 
+    /**
+     *  {@inheritDoc}
+     */
     @Override
     @Cacheable(CacheNames.BOOKING_SEARCH)
     public PageResult<Booking> search(BookingSearchQuery query) {
@@ -71,10 +98,22 @@ public class BookingService implements CreateBookingUseCase, CancelBookingUseCas
         return bookings.search(query.roomId(), window, query.page(), query.size());
     }
 
+    /**
+     * Loads a booking by its unique identifier, throwing an exception if not found.
+     * 
+     * @param id the unique identifier of the booking to load
+     * @return the loaded booking
+     */
     private Booking load(Long id) {
         return bookings.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
     }
 
+    /**
+     * Creates a TimeSlot representing the entire UTC day for the given date.
+     * 
+     * @param date the date for which to create the UTC day TimeSlot
+     * @return a TimeSlot representing the entire UTC day
+     */
     private static TimeSlot utcDay(LocalDate date) {
         return new TimeSlot(date.atStartOfDay(ZoneOffset.UTC).toInstant(),
                 date.plusDays(1).atStartOfDay(ZoneOffset.UTC).toInstant());
