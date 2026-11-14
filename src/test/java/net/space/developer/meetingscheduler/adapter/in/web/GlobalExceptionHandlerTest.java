@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -26,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest({RoomController.class, BookingController.class})
+@ApiSliceTest({RoomController.class, BookingController.class})
 class GlobalExceptionHandlerTest {
 
     @Autowired
@@ -49,7 +50,7 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void reportsMalformedJson() throws Exception {
-        mvc.perform(post("/api/v1/rooms").contentType(MediaType.APPLICATION_JSON).content("{\"name\": "))
+        mvc.perform(post("/api/v1/rooms").with(user("admin")).contentType(MediaType.APPLICATION_JSON).content("{\"name\": "))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON))
                 .andExpect(jsonPath("$.title").value("Malformed request"));
@@ -74,7 +75,7 @@ class GlobalExceptionHandlerTest {
     void reportsDomainTimeRangeViolation() throws Exception {
         given(createBooking.create(any())).willThrow(new InvalidTimeRangeException("End time must be after start time"));
 
-        mvc.perform(post("/api/v1/bookings").contentType(MediaType.APPLICATION_JSON).content("""
+        mvc.perform(post("/api/v1/bookings").with(user("admin")).contentType(MediaType.APPLICATION_JSON).content("""
                         {"roomId": 1, "personInCharge": "Ada", "startTime": "2030-01-10T09:00:00Z", "endTime": "2030-01-10T10:00:00Z"}
                         """))
                 .andExpect(status().isBadRequest())
@@ -85,7 +86,7 @@ class GlobalExceptionHandlerTest {
     void mapsDataIntegrityViolationToConflict() throws Exception {
         given(createRoom.create(any())).willThrow(new DataIntegrityViolationException("duplicate key uk_rooms_name"));
 
-        mvc.perform(post("/api/v1/rooms").contentType(MediaType.APPLICATION_JSON).content("""
+        mvc.perform(post("/api/v1/rooms").with(user("admin")).contentType(MediaType.APPLICATION_JSON).content("""
                         {"name": "Orion", "capacity": 8}
                         """))
                 .andExpect(status().isConflict())
@@ -104,7 +105,7 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void keepsFrameworkStatusForUnsupportedMethod() throws Exception {
-        mvc.perform(put("/api/v1/rooms"))
+        mvc.perform(put("/api/v1/rooms").with(user("admin")))
                 .andExpect(status().isMethodNotAllowed())
                 .andExpect(jsonPath("$.status").value(405));
     }
