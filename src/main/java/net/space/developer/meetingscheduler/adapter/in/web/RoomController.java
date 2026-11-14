@@ -1,5 +1,8 @@
 package net.space.developer.meetingscheduler.adapter.in.web;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import net.space.developer.meetingscheduler.adapter.in.web.dto.CreateRoomRequest;
 import net.space.developer.meetingscheduler.adapter.in.web.dto.RoomResponse;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Tag(name = "Rooms")
 @RestController
 @RequestMapping("/api/v1/rooms")
 class RoomController {
@@ -27,17 +31,21 @@ class RoomController {
         this.queryRooms = queryRooms;
     }
 
+    @Operation(summary = "Create a room", description = "Room names are unique (case-insensitive).")
+    @SecurityRequirement(name = ApiDocs.BASIC_AUTH)
     @PostMapping
     ResponseEntity<RoomResponse> create(@Valid @RequestBody CreateRoomRequest request) {
         RoomResponse room = RoomResponse.from(createRoom.create(request.toCommand()));
         return ResponseEntity.created(Locations.of(room.id())).body(room);
     }
 
+    @Operation(summary = "List rooms")
     @GetMapping
     List<RoomResponse> findAll() {
         return queryRooms.findAll().stream().map(RoomResponse::from).toList();
     }
 
+    @Operation(summary = "Get a room")
     @GetMapping("/{id}")
     RoomResponse findById(@PathVariable Long id) {
         return RoomResponse.from(queryRooms.findById(id));
