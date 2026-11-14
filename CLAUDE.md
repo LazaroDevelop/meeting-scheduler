@@ -28,8 +28,8 @@ Under `net.space.developer.meetingscheduler`:
 
 - `domain` — pure Java, no Spring/JPA. Records `Room`, `Booking`, `TimeSlot` (half-open `[start, end)`; back-to-back slots don't overlap), `PageResult`. `domain.exception` has abstract bases `ResourceNotFoundException` (→404), `ConflictException` (→409), plus `InvalidTimeRangeException` (→400). The advice maps on the **base types**, so new domain exceptions only need to extend the right base. `domain.port.in` holds one use-case interface per capability plus command/query records. `domain.port.out` holds the repository ports.
 - `application` — `RoomService` and `BookingService` implement the in-ports. They own `@Transactional` and the cache annotations (cache names in `CacheNames`, which must match `spring.cache.cache-names` in `application.yaml`).
-- `adapter.in.web` — controllers, request/response DTO records (mapping lives on the DTOs: `toCommand()` / `from()`), `GlobalExceptionHandler`. Every error body is an RFC 9457 `ProblemDetail` built through `Problems`; validation errors add `errors: [{field, message}]`.
-- `adapter.out.persistence` — package-private JPA entities and repositories behind the ports. Entities map themselves (`fromDomain` / `toDomain`). Bookings reference rooms by id, not by `@ManyToOne`.
+- `adapter.in.web` — controllers, request/response DTO records (mapping lives on the DTOs: `toCommand()` / `from()`), `GlobalExceptionHandler`. Shared web helpers live in `adapter.in.web.common` (`Problems`, `FieldViolation`, `Locations`, `ApiDocs`). Every error body is an RFC 9457 `ProblemDetail` built through `Problems.of(...)`, which also adds a UTC `timestamp` (callers never pass one). Validation errors add `errors: [{field, message}]`.
+- `adapter.out.persistence` — package-private JPA entities and repositories behind the ports. Adapters are registered through the `@RoomAdapter` / `@BookingAdapter` stereotypes (in `annotations`, meta-annotated with `@Component`). Entities map themselves (`fromDomain` / `toDomain`). Bookings reference rooms by id, not by `@ManyToOne`.
 - `config` — security, cache enabling, OpenAPI.
 
 Key invariants:
@@ -48,6 +48,10 @@ Schema is owned by Liquibase (`src/main/resources/db/changelog/`). Hibernate run
 - Web slices use `@ApiSliceTest(Controller.class)` (test meta-annotation = `@WebMvcTest` + real `SecurityConfig`). Use `.with(user("admin"))` on writes.
 - Persistence tests: `@DataJpaTest` + `@AutoConfigureTestDatabase(replace = NONE)` + `@Import(TestcontainersConfiguration.class, <Adapter>.class)`.
 - Boot 4 test packages differ from Boot 3, e.g. `org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest` and `org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest`. The Jackson mapper is Jackson 3 (`tools.jackson.databind.json.JsonMapper`).
+
+## Javadoc style
+
+Main description first, then `@author` / `@since`, then `@param` / `@return`. Use only standard Javadoc tags (no Doxygen `@brief`).
 
 ## Workflow
 
