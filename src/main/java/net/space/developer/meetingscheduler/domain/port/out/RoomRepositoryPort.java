@@ -11,6 +11,12 @@ public interface RoomRepositoryPort {
 
     Optional<Room> findById(Long id);
 
+    /**
+     * Loads the room holding an exclusive lock until the current transaction ends,
+     * serializing concurrent bookings of the same room.
+     */
+    Optional<Room> findByIdForUpdate(Long id);
+
     List<Room> findAll();
 
     boolean existsByName(String name);

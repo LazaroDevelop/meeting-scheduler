@@ -28,6 +28,11 @@ class RoomPersistenceAdapter implements RoomRepositoryPort {
     }
 
     @Override
+    public Optional<Room> findByIdForUpdate(Long id) {
+        return repository.findByIdForUpdate(id).map(RoomJpaEntity::toDomain);
+    }
+
+    @Override
     public List<Room> findAll() {
         return repository.findAll(Sort.by("name")).stream().map(RoomJpaEntity::toDomain).toList();
     }
