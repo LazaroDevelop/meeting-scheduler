@@ -11,7 +11,7 @@
 
     <groupId>net.space.developer</groupId>
     <artifactId>meeting-scheduler</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>meeting-scheduler</name>
     <description>REST API for booking meeting rooms</description>
 
