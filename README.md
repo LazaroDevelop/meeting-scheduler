@@ -10,7 +10,7 @@
 
 > A production-minded REST API for booking meeting rooms: no double bookings, clear errors, and nothing magical you'll have to fight later.
 
-Hi! 👋 I'm **Lazaro**, a Java backend engineer with 5+ years of experience building Spring services. Over those years I've seen the same booking bugs again and again: two people in the same room at 10:00, a `500` where a `409` belonged, a cache serving yesterday's data. This project is my take on doing it right from day one, with a small codebase, explicit rules and tests that prove the rules hold.
+Hi! 👋 I'm **Lazaro**, a Java backend engineer with 4+ years of experience building Spring services. Over those years I've seen the same booking bugs again and again: two people in the same room at 10:00, a `500` where a `409` belonged, a cache serving yesterday's data. This project is my take on doing it right from day one, with a small codebase, explicit rules and tests that prove the rules hold.
 
 ---
 
